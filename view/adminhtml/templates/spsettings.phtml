@@ -1,0 +1,165 @@
+<!-- 
+    This template file is for the SAML Service Provider settings.
+    File acts as a view file for our Service Provider settings.
+-->
+<!-- 
+    This template file is for the SAML Service Provider settings.
+    File acts as a view file for our Service Provider settings.
+-->
+<?php
+    // initialize all values
+//    $isEnabled = $this->isEnabled() ? "" : "disabled";
+    $samlIdentityProviderName = $this->getIdentityProviderName();
+    $loginBindingType = $this->getLoginBindingType();
+    $isResponseSigned = $this->isResponseSigned() ? "checked" : "";
+    $isAssertionSigned = $this->isAssertionSigned() ? "checked" : "";
+	$isEnabled = $this->isEnabled();
+    $disabled = !$isEnabled ? "disabled" : "";
+//	$uploadMetadata = $this->uploadMetadata();
+
+    $formKey = $this->getBlockHtml('formkey');
+	$selected_provider=$samlIdentityProviderName;
+
+	//fetching values from 'miniorange_saml_idps' table in $clientDetails array
+	if(isset($selected_provider))
+	{
+		$collection = $this->getAllIdpConfiguration();
+		$idpDetails=null;
+		foreach($collection as $item){
+			if($item->getData()["idp_name"]===$selected_provider){
+				$idpDetails=$item->getData();
+			}
+		}
+		$httpRedirect = !empty($idpDetails) && !empty($idpDetails['saml_login_binding']) && $idpDetails['saml_login_binding'] == 'HttpRedirect' ? 'checked="checked"' : '';
+		$httpPost = !empty($idpDetails) && !empty($idpDetails['saml_login_binding']) && $idpDetails['saml_login_binding'] == 'HttpPost' ? 'checked="checked"' : '';
+
+	}else{
+		if(empty($httpPost))
+		$httpPost = null;
+	
+	if(empty($httpRedirect))
+	$httpRedirect = null;
+}
+$testUrl = $this->getTestUrl($samlIdentityProviderName);
+
+		$x509Certificate = !empty($idpDetails['x509_certificate']) ? $idpDetails['x509_certificate']:"";
+		$isSPConigured = !isset($idpDetails['saml_login_url']) ? 'disabled title="Please Configure an IDP"' : '';
+		$samlIssuer = !empty($idpDetails['idp_entity_id']) ? $idpDetails['idp_entity_id']:"";
+		$ssoUrl = !empty($idpDetails['saml_login_url']) ? $idpDetails['saml_login_url'] : "";
+//    $premiumlink = $this->getExtensionPageUrl('upgrade');
+
+echo '
+<script>
+		var testURL = "'.$testUrl.'";
+	</script>
+<div class="row">
+	<div class="col-sm-7 page_margin box">
+		<div class="page" id="serviceprovider">
+		<div class="upload_metadata_div"">
+		<form method="post" id="upload_metadata_form" class="upload_metadata_form" enctype="multipart/form-data">
+		'.$formKey.'
+			<input type="hidden" name="option" value="upload_metadata_file">
+			<div style="display:inline">
+				<h4><strong>Upload IDP XML Metadata</strong></h4>	
+			</div>
+				<hr style="border: 1px solid rgb(131, 128, 128)">
+			<br>
+			<div style="display:inline">
+    <label for="idp_name"><b>Identity Provider Name: </b></label>
+    <input type="text" name="saml_identity_name" placeholder="Identity Provider name like ADFS, Salesforce" required $isEnabled;
+        style="width: 350px;" pattern="^\w*$" title="Only alphabets, numbers and underscore are allowed">
+</div>
+
+			<div>
+					<label for="metadata"><b>Upload File: </b></label>
+					<input class="form-control" id="metadata_file" type="file" name="metadata_file" data-validate="{required:true}">
+			</div>
+			<h4 style="text-align:center;">OR</h4>
+			<div>
+				<label for="upload_url"><b>Upload URL: </b></label>
+				<input class="form-control" type="url" name="upload_url">
+			</div>
+			<br>
+			<br>
+			<div style="text-align:center;">
+			<a class="btn btn-primary upload btn-round" style="background-color:#ff8500; color:white; padding:2%" type="submit"  name="upload_file" onClick="uploadFile()" id="upload_file">Upload</a> &nbsp;
+			<a class="btn btn-primary cancel btn-round" style="background-color:#b82727; color:white; padding:2%" type="button"  name="cancel" id="cancel" onClick="cancel()">Cancel</a> 
+			</form>
+			</div>
+		</div>
+			<div class="mosp_table_layout">
+				<form name="f" id="spsettings" method="post" action="">
+				'.$formKey.'
+					<input type="hidden" name="option" value="saveIDPSettings" >
+					<h3><center>CONFIGURE SERVICE PROVIDER</center></h3>
+					
+					<hr>
+						Enter the information gathered from your Identity Provider
+						<input type="button" class="btn-round" name="upload_idp_metadata" onclick="upload_metadata();" style="float:right; margin-left:7px;margin-right:95px; margin-top:1%;"  value="Upload IDP Metadata">
+					<table style="width:100%;">
+						<tr>
+							<td style="width:200px;"><strong>Identity Provider Name<span style="color:red;">*</span>:</strong></td>
+							<td><input type="text" name="saml_identity_name" placeholder="Identity Provider name like ADFS, SimpleSAML, Salesforce" 
+									style="width: 85%;" value="'.$samlIdentityProviderName.'"   
+									pattern="^\w*$" title="Only alphabets, numbers and underscore is allowed" required></td>
+						</tr>
+						<tr>
+							<td><strong>IdP Entity ID or Issuer <span style="color:red;">*</span>:</strong></td>
+							<td><input type="text" name="saml_issuer" placeholder="Identity Provider Entity ID or Issuer" style="width: 85%;" 
+								value="'.$samlIssuer.'"     required></td>
+						</tr>
+						<tr>
+							<td><strong>SAML Login URL <span style="color:red;">*</span>:</strong></td>
+							<td><input type="url" name="saml_login_url" placeholder="Single Sign On Service URL of your IdP" style="width: 85%;" 
+							value="'.$ssoUrl.'"   required></td>
+						</tr>
+						<tr>
+						<td><strong>SAML Logout URL :</strong></td>
+						<td><input type="url" name="saml_logout_url" placeholder="Available in the PREMIUM version " style="width: 85%;" 
+						class="sp_textboxes" disabled ></td>
+					</tr>
+						<tr>
+						<td><strong>Login Binding Type <span style="color:red;">*</span>:</strong></td>
+							<td>
+								<input type="radio" name="saml_login_binding_type" id="sso-http-redirect" value="HttpRedirect" 
+									'.$httpRedirect.'   >
+								<label for="sso-http-redirect">Use HTTP-Redirect Binding for SSO</label>
+								<input style="margin-left:15px;" type="radio" name="saml_login_binding_type" id="sso-http-post" 
+										value="HttpPost" '.$httpPost.'    >
+								<label for="http-post">Use HTTP-POST Binding for SSO</label>
+								<br>
+								
+							</td>
+						</tr>
+					
+					
+						<tr>
+							<td><strong>X.509 Certificate <span style="color:red;">*</span>:</strong></td>
+							<td>
+								<textarea rows="4" cols="5" name="saml_x509_certificate"  
+									placeholder="Copy and Paste the content from the downloaded certificate or copy the content enclosed in X509Certificate tag (has parent tag KeyDescriptor use=signing) in IdP-Metadata XML file">'.$x509Certificate.'</textarea>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>
+								<b>NOTE:</b> Format of the certificate:<br><b>-----BEGIN CERTIFICATE-----<br>XXXXXXXXXXXXXXXXXXXXXXXXXXX
+									<br>-----END CERTIFICATE-----</b></i><br>
+							</td>
+						</tr>
+						
+
+						<tr>
+							<td>&nbsp;</td>
+							<td>
+								<br><input type="submit" class="btn-round" name="submit"   style="width:100px;" value="Save"  
+								> &nbsp; 
+								<input type="button" class="btn-round" name="test" title="You can only test your Configuration after saving your Service Provider Settings." 
+									onclick="showTestWindow();" '.$isSPConigured.'    value="Test configuration" style="width:150px">
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	';

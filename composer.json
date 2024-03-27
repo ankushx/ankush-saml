@@ -1,0 +1,46 @@
+{
+  "name": "miniorange_inc/saml-sp-single-sign-on",
+  "description": "Magento SAML Single Sign on (SSO) extension acts as a SAML Service Provider which can be configured to establish the trust between the extension and a SAML capable Identity Providers to securely authenticate the user to Magento 2 site. Execute Magento SSO using Azure AD, Azure B2C, Okta, ADFS, Keycloak, OneLogin, Salesforce, Google Apps (G Suite), Shibboleth, Ping, Auth0 and other IdPs (Identity Providers)",
+  "keywords": [
+    "SAML",
+    "Service Provider",
+    "Identity Provider",
+    "SSO",
+    "Magento SSO",
+    "Magento 2 SSO",
+    "Single Sign On",
+    "Authentication",
+    "Magento Single Sign-On",
+    "Magento 2 Single Sign-On",
+    "Magento SAML Authentication",
+    "SAML SSO Magento",
+    "Magento 2 SAML"
+  ],
+  "type": "magento2-module",
+  "version": "4.0.4",
+  "license": [
+    "Commercial"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "MiniOrange\\SP\\": ""
+    }
+  },
+  "authors": [
+    {
+      "name": "miniOrange Team",
+      "homepage": "https://www.miniorange.com/",
+      "email": "magentosupport@xecurify.com"
+    }
+  ],
+  "support": {
+    "email": "magentosupport@xecurify.com"
+  },
+  "require": {
+    "php": "~7.2.0|~7.3.0|~7.4.0|~8.0.0|~8.1.0|~8.2.0"
+  }
+
+}

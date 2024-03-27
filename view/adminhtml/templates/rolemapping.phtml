@@ -1,0 +1,159 @@
+<!-- 
+    This template file is for the saml Attribute/Role Mapping settings.
+    File acts as a view file for our attribute / role mapping page.
+-->
+
+<?php 
+    //Attribute mapping
+    // initialze all values required to be shown on the page
+    $roles = $this->getAllRoles();
+    $groups = $this->getAllGroups();
+
+    $isEnabled = $this->isEnabled();
+    $disabled = !$isEnabled ? "disabled" : "";
+    $premiumlink = $this->getExtensionPageUrl('upgrade');
+
+    $saml_am_account_matcher = $this->getAccountMatcher();
+
+    $emailSelected = $saml_am_account_matcher == 'email' ? 'selected="selected"' : "";
+    $usernameSelected = $saml_am_account_matcher == 'username' ? 'selected="selected"' : "";
+
+    $admin_roles_configured = $this->getRolesMapped();
+    $customer_roles_configured = $this->getGroupsMapped();
+
+
+    $default_role = $this->getDefaultRole();
+    $formKey = $this->getBlockHtml('formkey');
+
+echo '
+   
+<div class="row">
+<div class="col-sm-7 page_margin box box-flex">
+    <div class="page" id="attrmapping">
+        <div class="mosaml_table_layout">
+            <form name="f" method="post" action="">
+                '.$formKey.'
+                <input type="hidden" name="option" value="saveAttrSettings" >
+                 <h3><center>Role Mapping (Optional)</center></h3><hr>	
+                <table>
+                        <tr>
+                        <td colspan="2">
+                            <div class="mo_note">
+                                <span class="btn-link" id="role_mapping" href="">What is Role Mapping?</span>
+                                <span style="color:red">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp *</span> <span style="text-transform: capitalize;font-weight:normal;color:black">(Available in the <a href="'.$premiumlink.'" 
+                                class="premium btn-link">premium</a> version)</span>
+                                <div style="display:none" class="show_info" style="padding-left:3px;">
+                                    <ol>
+                                    <br>
+                                        <li>Magento uses a concept of Roles, designed to give the site owner the ability to control 
+                                                what users can and cannot do within the site.</li>
+                                        <li>Role mapping helps you to assign specific roles to users of a certain group in your IdP.</li>
+                                        <li>While auto registering, the users are assigned roles based on the group they are mapped to.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </td>
+                        </tr>
+                    <tr><td colspan="2"><b>NOTE: </b>Group will be assigned only to non-admin users (user that do NOT have Administrator 
+                        privileges). You will have to manually change the group of Administrator users.</td></tr>
+                    <tr><td colspan="2"><input type="checkbox" id="dont_create_user_if_role_not_mapped" 
+                        name="mo_saml_dont_create_user_if_role_not_mapped" disabled value="checked"  
+                         >&nbsp;&nbsp;Do not auto create users if roles are not 
+                        mapped here.</td></tr>
+                    
+                        
+                        <tr>
+                        <td><strong>Default Role :</strong></td>
+                        <td>
+                                <select id="saml_am_default_role" disabled name="saml_am_default_role"
+                                     style="width:150px;" >';
+
+                                foreach($roles as $role)
+                                {
+                                    $selected = $default_role==$role['label']? 'selected' : '';
+                                    echo '<option id="mo2f_roles" '. $selected .' 
+                                        name="'.$role['label'].'" value="'.$role['label'].'">'.
+                                        $role['label'].'</option>';
+                                }
+echo'                           </select>   <i>Select the default role to assign to new Backend Users.</i>
+                        </td>
+                    </tr>';
+
+                    foreach ($roles as $role) 
+                    {
+                        $role_value = $role['value'];
+                        $role_name = $role['label'];
+                        
+                        
+                        if(empty($admin_roles_configured))
+                        {
+                            $admin_roles=array();
+                            $value = array_key_exists($role_value, $admin_roles) ? $admin_roles[$role_value] : "";
+    
+                        }
+                        else{
+                            $admin_roles = $admin_roles_configured ;
+                            
+                            $value = array_key_exists($role_value, $admin_roles) ? $admin_roles[$role_value] : "";
+    
+                        }
+                        echo '<tr><td><b>' . $role_name .'</b></td><td><input type="text" name="saml_am_admin_attr_values_' . 
+                        $role_value . '" value="' . $value .'" disabled placeholder="Semi-colon(;) separated Role value for ' . 
+                        $role_name . '" style="width: 80%;" ></td><tr></tr></tr>';
+                    }
+
+
+                    echo'
+                    <tr  style="border-bottom: 1px solid #c1bdbd;">
+                    <tr>
+                    <td><tr></tr>
+                        <td><strong>Default Group :</strong></td>
+                        <td>
+                                <select id="saml_am_default_group" disabled name="saml_am_default_group"
+                                      style="width:150px;" >';
+                                foreach($groups as $group)
+                                {
+                                    $selected = $default_role==$group['label']? 'selected' : '';
+                                    echo '<option id="mo2f_roles" '. $selected .' name="'.
+                                    $group['label'].'" value="'.$group['label'].'">'.
+                                    $group['label'].'</option>';
+                                }
+
+echo'                           </select>
+                            <i>Select the default role to assign to new Frontend Users.</i>
+                        </td>
+                        </td>
+                    </tr>';
+
+
+                    
+
+                    if(empty($customer_roles_configured)){
+                        $customer_fields = array();
+                    }else{
+                      //  $customer_fields = unserialize($customer_roles_configured);
+                    }
+                    foreach ($groups as $group) 
+                    {
+                        $role_value = $group['value'];
+                        $role_name = $group['label'];
+                        $value = array_key_exists($role_value, $customer_fields) ? 
+                            $customer_fields[$role_value] : "";
+                        echo '<tr><td><b>' . $role_name .'</b></td><td><input type="text" name="saml_am_group_attr_values_' . 
+                            $role_value . '" value="' . $value .'" disabled placeholder="Semi-colon(;) separated Group value for ' . 
+                            $role_name . '" style="width: 80%;" ></td></tr></tr>';
+                    }
+
+echo'               <tr>
+                        <td>&nbsp;</td>
+                        <td><br><input type="submit" class="btn-round" style="width:100px;" disabled name="submit" value="Save" 
+                             > &nbsp; 
+                        <br><br>
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
+        </div>
+    </div>
+';

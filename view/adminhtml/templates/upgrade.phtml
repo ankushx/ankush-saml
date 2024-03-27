@@ -1,0 +1,141 @@
+<!--Pricing Tab-->
+<?php
+
+$idpsettings = $this->getExtensionPageUrl('idpsettings');
+$hostname = $this->getMiniOrangeUrl();
+$email = $this->getCustomerEmail();
+$version = $this->getCurrentVersion();
+
+
+echo '
+     <div class="page" id="pricing" style=" border-radius: 20px; padding: 30px; margin : 20px;">
+
+      <section class="pricing py-5">
+
+      <div class="container">
+
+      <div class="row"
+      style="display:flex;"
+      >
+
+        <!-- Free Tier -->
+        <div class="columns">
+
+              <ul class="price">
+
+                <li class="header" style="background-color: #ea680b">Free ' . $version . '</li>
+                <li class="grey">$0</li>
+                <li>&#10004Auto Create Users (Upto 10 Users)</li>
+                <li>&#10004Option to Add SSO login button</li>
+                <li>&#10004Options to select SAML Request binding type</li>
+                <li>&#10004Unlimited authentication via IDP</li>
+                <li></li>                
+                <li></li>                   
+                <li></li>                   
+                <li><a href="#" class="button btn-round upgrade_button">Upgrade</a></li>
+                </ul>
+
+            </div>
+            <!-- Plus Tier -->
+            <div class="columns">
+
+            <ul class="price">
+
+               <li class="header">Standard</li>
+               <li class="grey">$299*</li>
+               <li>&#10004All Free ' . $version . ' Features</li>
+               <li>&#10004IDP and SP Initiated SSO</li>
+               <li>&#10004Option to select SAML Request</li>
+               <li>&#10004SAML Single Logout</li>
+               <li>&#10004Auto-Redirect to IDP from login page</li>
+               <li>&#10004End to End Provider Configuration</li>  
+               <br>         
+               <li><a href="https://login.xecurify.com/moas/login?redirectUrl=https://login.xecurify.com/moas/initializepayment&requestOrigin=magento_saml_standard_plan" target="_blank" rel="nofollow" class="button btn-round upgrade_button" >Upgrade</a>
+                <a href="https://plugins.miniorange.com/setup-magento-saml-single-sign-on-sso-trial-extension" target="_blank" rel="nofollow" class=" button btn-round upgrade_button" >Free Trial</a>
+               </li>
+
+          </ul>
+
+        </div>
+
+
+        <!-- Pro Tier -->
+        <div class="columns">
+
+        <ul class="price">
+
+                <li class="header">Premium</li>
+                <li class="grey">$399*</li>
+                <li>&#10004All Standard Features</li>
+                <li>&#10004Default Attribute Mapping</li>
+                <li>&#10004Custom Attribute Mapping</li>
+                <li>&#10004Role Mapping</li>
+                <li>&#10004Support for multi-store</li>
+                <li></li>             
+                <li></li>             
+                <li><a href="https://login.xecurify.com/moas/login?redirectUrl=https://login.xecurify.com/moas/initializepayment&requestOrigin=magento_saml_premium_plan" target="_blank" rel="nofollow" class="button btn-round upgrade_button">Upgrade</a>
+                  <a href="https://plugins.miniorange.com/setup-magento-saml-single-sign-on-sso-trial-extension" target="_blank" rel="nofollow" class=" button btn-round upgrade_button" >Free Trial</a>
+                  </li>
+           </ul>
+
+         </div>
+         <div class="columns">
+
+          <ul class="price">
+
+               <li class="header">Enterprise</li>
+               <li class="grey">$599*</li>
+               <li>&#10004All Premium Features</li>
+               <li>&#10004Support for multisites**( 2 subsites)</li>
+               <li></li>
+                <li></li>
+                <li></li>               
+                <li></li>           
+                <li></li>           
+                <li></li>      
+                <br>     
+               <li><a href="https://login.xecurify.com/moas/login?redirectUrl=https://login.xecurify.com/moas/initializepayment&requestOrigin=magento_saml_enterprise_plan" target="_blank" rel="nofollow" class="button btn-round upgrade_button">Upgrade</a>
+                <a href="https://plugins.miniorange.com/setup-magento-saml-single-sign-on-sso-trial-extension" target="_blank" rel="nofollow" class=" button btn-round upgrade_button" >Free Trial</a>
+                </li>
+
+            </ul>
+            </div>
+             </div>
+
+             <div style="margin:2% 0 2% 2%;">
+
+      <form style="display:none;" id="mocf_loginform" action="' . $hostname . '/moas/login"
+
+          target="_blank" method="post">
+
+          <input type="email" name="username" value="' . $email . '" >
+
+          <input type="text" name="redirectUrl" value="' . $hostname . '/moas/initializepayment" >
+
+          <input type="text" name="requestOrigin" id="requestOrigin"  >
+
+      </form>
+
+  </div>
+
+    </div>
+
+
+  </section>
+
+    </div>
+
+<div style="background-color:#f4f4f4 ; border-radius: 20px; padding: 30px; margin : 20px;">
+<p>* Cost applicable for one instance only. Licenses are perpetual and the Support Plan includes 12 months of maintenance (support and version updates). You can renew maintenance after 12 months.</p><br>
+
+<p>** Multiple Sites Supported
+There is an additional cost for the sites if the number of sites is more than 2.</p><br>
+
+
+<p>Multiple IDPs Supported
+We can configure multiple IDPs with our miniOrange cloud. Contact us at <a href="mailto:magentosupport@xecurify.com">magentosupport@xecurify.com</a> for more info.</p><br>
+
+
+</div>
+
+    ';

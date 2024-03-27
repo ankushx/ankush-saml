@@ -1,0 +1,101 @@
+<!-- 
+    This template shows a registration page to the user.
+    This page is only shown if the registration status is 
+    not set in the system.
+-->
+<!-- update- remove first name,last name,organisation name -->
+<?php
+    $currentAdminUser = $this->getCurrentAdminUser()->getData();
+    $userEmail = $currentAdminUser['email'];
+    $firstName = $currentAdminUser['firstname'];
+    $lastName = $currentAdminUser['lastname'];
+    $site = $this->getBaseUrl();
+
+    $formKey = $this->getBlockHtml('formkey');
+
+    echo '
+    
+    <div class="row box box-flex" >
+    <div class="col-sm-12 page_margin">
+    <div class="page" id="register" >
+    <form name="f" method="post" action="" id="register-form">
+            '.$formKey.'  
+            <input type="hidden" name="option" value="registerNewUser" >
+            <div class="mo_idp_table_layout" style="text-align:center; right:12px">
+                <h2 id="register_login" 
+                style="text-align:center; font-weight: bold;"
+                >Register with miniOrange</h2><hr>
+                <div class="mo_note">
+                    <div class="btn-link" id="why_register" href="">Why do I need to register?</a></div>
+                    <div style="display:none; text-align:left; margin:8px " class="show_info">
+                        Registration makes it easier for us to get in touch with you incase you need any help. We can help you with step by 
+                        step instructions. We support all known IdPs - <b>ADFS, Okta, Salesforce, Shibboleth, SimpleSAMLphp, OpenAM, Centrify, 
+                        Ping, RSA, IBM, Oracle, OneLogin, Bitium, JBoss Keycloak etc</b>.
+                    </div>
+                </div>
+              
+            </div>
+            <div class="row">
+                <div class="col-sm-12"
+                style="display: flex;
+                 justify-content: center;
+                  align-items: center; 
+                  flex-direction:column;
+                  right: 42px;
+                  margin-top: 33px;
+                  "
+                >
+                    <div class="row" id="email">
+                        <div class="col-sm-2  row1 labels" 
+                        style="display:inline; margin-top: 4%; font-size:120%">
+                            <label >Email :</label>
+                        </div>
+                        <div class="col-sm-10  row1" >
+                            <input 
+                        
+                            class="mosp_table_textbox register_textboxes register-input" type="email" name="email" required placeholder="person@example.com" value="'.$userEmail.'">
+                        </div>
+                    </div>
+
+                    <div class="row" id="password">
+                        <div class="col-sm-2 row1 labels"
+                        style="display:inline; margin-top: 4%; font-size:120%">
+                            <label class="labels">Password :</label>
+                        </div>
+                        <div class="col-sm-8 row1">
+                            <input 
+                            " class="mosp_table_textbox register_textboxes register-input" required type="password" name="password" placeholder="Password (Min. length 6)" >
+                        </div>
+                    </div>
+                    <div class="row" id="confirmPassword">
+                        <div class="col-sm-2 row1 labels"
+                        style="display:inline; margin-top: 4%; font-size:120%">
+                            <label class="labels">Confirm Password :</label>
+                        </div>
+                        <div class="col-sm-8 row1">
+                            <input
+                             id="myInput" required
+                             class="mosp_table_textbox register_textboxes register-input" type="password" name="confirmPassword" placeholder="Confirm your password" >
+                        </div>   
+                    </div>
+                    &nbsp; 
+                    <div class="side-by-side">
+                    <input type="submit" class="btn-round" name="submit" id="registerLoginButton" value="Register" style="width:150px;"
+                             >     
+                
+                            <strong id="registered" class="register-login btn-link-round">
+                             Already Registered ? Click here to Login
+                         </strong>
+                         </div>
+                         
+                          <br>
+                          <a id="forget_pass" href="https://login.xecurify.com/moas/idp/resetpassword" target="_blank" style="display:none; color:black; cursor:pointer; margin-left:3%;">Click here if you forgot your password</a>
+                </div>
+           </div>
+        </form>
+        </div>
+</div>';
+?>
+
+
+

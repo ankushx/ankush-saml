@@ -1,0 +1,405 @@
+<!--
+    This template file is for the SAML Identity Provider settings.
+    File acts as a view file for our Identity Provider settings.
+-->
+<body>
+<?php
+    // initialize all values required on the page
+    $isserUrl = $this->getIssuerUrl();
+    $baseUrl = $this->getBaseUrl();
+    $metadataUrl = $this->getMetadataUrl();
+    $isEnabled = $this->isEnabled();
+    $disabled = !$isEnabled ? "disabled" : "";
+    $premiumlink = $this->getExtensionPageUrl('upgrade');
+
+    $formKey = $this->getBlockHtml('formkey');
+
+    $acsUrl= $this->getAcsUrl();
+
+echo '
+<div class="row" >
+<div class="col-sm-7 page_margin">
+    <div class="page" id="identityprovider">
+        <h3><center>CONFIGURE IDENTITY PROVIDER</center></h3><hr>
+        <div id="idp-settings" class="mosp_table_layout">
+
+
+
+
+            <h3><b>STEP 1:</b></h3>
+            <div class="container mt-5 main">
+            <br>
+           <center><input type="text" style="border:none; text-align:center;"  id="myinput" placeholder="Search and select your IDPs"></center>
+            <br>
+
+            <div class="container ">
+                <h3 id="para" style="display: none; "><center>No IDPs found . Please Select a Custom Idp</center></h3>
+                <div id="scrollable-gallery" class="row"></div>
+            </div>
+        </div>
+
+
+
+            </div>
+
+            <h3 style="margin-top:3px;"><b>STEP 2:</b></h3>
+            <h4>You will need the following information to configure your IdP. Copy it and keep it handy:</h4>
+
+                <table class="data center" style="position:relative; z-index: 0;">
+                    <tr style="margin-top:11px; ">
+                        <td><b>SP-EntityID / Issuer</b></td>
+                        <td id="copy" style="padding-top:21px;">
+                        <div class="copy-link">
+                        <input type="text" class="copy-link-input" value="'.$isserUrl.'" readonly>
+                        <button type="button" class="copy-link-button">
+                            <span class="material-icons" >
+                                <img  src="'.$this->getViewFileUrl('MiniOrange_SP::images/copy.png').'" alt="copy"
+                                style="height: 25px;padding-top:4px"
+                                >
+                            </span>
+                            <span class="copy-text">copied</span>
+                      </button>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>ACS (Assertion Consumer Service) URL</b></td>
+                        <td>
+                                        <div class="copy-link">
+                                <input type="text" class="copy-link-input" value="'.$acsUrl.'" readonly>
+                                <button type="button" class="copy-link-button">
+                                    <span class="material-icons">
+                                    <img  src="'.$this->getViewFileUrl('MiniOrange_SP::images/copy.png').'" alt="copy"
+                                    style="height: 25px;padding-top:4px"
+                                    >
+                                    </span>
+                                    <span class="copy-text">copied</span>
+                            </button>
+                                </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Single Logout URL</b></td>
+                        <td><span style="color:red">*</span> Available in the <a href="'.$premiumlink.'"
+                        class="premium btn-link">premium</a> version</td>
+                    </tr>
+                    <tr>
+                        <td><b>Audience URI</b></td>
+                        <td>
+                            <div class="copy-link">
+                            <input type="text" class="copy-link-input" value="'.$isserUrl.'" readonly>
+                            <button type="button" class="copy-link-button">
+                                <span class="material-icons">
+                                <img  src="'.$this->getViewFileUrl('MiniOrange_SP::images/copy.png').'" alt="copy"
+                                style="height: 25px;padding-top:4px"
+                                >
+                                </span>
+                                <span class="copy-text">copied</span>
+                        </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>NameID format</b></td>
+                        <td>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</td>
+                    </tr>
+                   <tr>
+                        <td><b>Default Relay State (Optional)</b></td>
+                        <td><span style="color:red">*</span> Available in the <a href="'.$premiumlink.'"
+                        class="premium btn-link">premium</a> version</td>
+                    </tr>
+                    <tr>
+                        <td><b>Certificate (Optional)</b></td>
+                        <td><span style="color:red">*</span> Available in the <a href="'.$premiumlink.'"
+                            class="premium btn-link">premium</a> version</td>
+            </tr>
+                </table>
+
+
+                <br><br>
+                <tr>
+                        <td>
+                        <strong>b) You can provide this metadata URL to your Service Provider:</strong>
+                        </td>
+                        <br>
+                        <td>
+
+                                    <div class="copy-link" style="width:98%";>
+                                    <input type="text" name="metadata_url" class="copy-link-input" value="'.$metadataUrl.'" readonly  required '.$isEnabled.' disabled>
+                                    <button type="button" class="copy-link-button">
+                                        <span class="material-icons" >
+                                            <img  src="'.$this->getViewFileUrl('MiniOrange_SP::images/copy.png').'" alt="copy" class="copy-img">
+                                        </span>
+                                        <span class="copy-text">copied</span>
+                                </button>
+                                </div>
+
+                         </td>
+
+                         <br><br>
+
+           </tr>
+            </div>
+
+            <form name="f" method="post" action=""> '.$formKey .'
+           <input type="hidden" name="option" value="download_metadata" >
+           <td>
+           <strong>c) Download the Plugin XML metadata and upload it on your Service Provider:</strong>
+           </td>
+           <div style="text-align:left">
+           <br>
+           <input type="submit" name="metadata_file" value="Download XML Metadata"  class="btn-round"
+           </div>
+
+        </form>
+
+            <br><br>
+
+        </div>
+    </div>';
+    ?>
+    <script >
+      // idp icon,name and link
+      let filterarray = [];
+      let galleryarray = [
+                  // ... (your gallery array)
+                       {
+              id:1,
+              name : "Azure AD",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/azure-ad.png'); ?>",
+              url: "https://plugins.miniorange.com/saml-single-sign-on-sso-into-magento-using-azure-ad-idp"
+          },
+          {
+              id:2,
+              name : "Okta",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/okta.png'); ?>",
+             url: "https://plugins.miniorange.com/saml-single-sign-on-sso-magento-using-okta-as-idp"
+          },
+          {
+              id:3,
+              name : "Salesforce",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/salesforce.png'); ?>",
+               url: "https://plugins.miniorange.com/saml-single-sign-on-sso-magento-using-salesforce-idp"
+          },
+          {
+              id:4,
+              name : "Jboss Keycloak",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/jboss-keycloak.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-single-sign-on-sso-using-jboss-keycloak-idp"
+          },
+          {
+              id:5,
+              name : "Onelogin",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/onelogin.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-onelogin-as-idp"
+          },
+          {
+              id:6,
+              name : "Auth0",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/auth0.png'); ?>",
+             url: "https://plugins.miniorange.com/"
+          },
+          {
+              id:7,
+              name : "miniOrange",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/miniorange.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-miniorange-as-idp"
+          },
+          {
+              id:8,
+              name : "Google Apps",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/google-apps.png'); ?>",
+             url: "https://plugins.miniorange.com/magento-single-sign-sso-using-google-apps-idp"
+          },
+
+          {
+              id:9,
+              name : "Centrify",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/centrify.png'); ?>",
+            url: "https://plugins.miniorange.com/saml-single-sign-on-sso-magento-using-centrify"
+          },
+          {
+              id:10,
+              name : "Oracle",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/oracle.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-oracle-enterprise-manager-as-idp"
+          },
+          {
+              id:11,
+              name : "Shibboleth 2",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/shibboleth2.png'); ?>",
+           url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-shibboleth2-as-idp"
+          },
+          {
+              id:12,
+              name : "Office 365",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/office365.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-office-365-as-idp"
+          },
+          {
+              id:13,
+              name : "SimpleSAML",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/simplesaml.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-simplesaml-as-idp"
+          },
+          {
+              id:14,
+              name : "PingOne",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/pingone.png'); ?>",
+              url: "https://www.miniorange.com/contact"
+          },
+          {
+              id:15,
+              name : "Bitium",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/bitium.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-bitium-as-idp"
+          },
+          {
+              id:16,
+              name : "Ping Federate",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/pingfederate.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-pingfederate-as-idp"
+          },
+          {
+              id:17,
+              name : "OpenAM",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/openam.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-openam-as-idp"
+          },
+          {
+              id:18,
+              name : "Auth Anvil",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/authanvil.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-authanvil-as-idp"
+          },
+          {
+              id:19,
+              name : "RSA SecureID",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/rsa-secureid.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-rsa-securid-as-idp"
+          },
+          {
+              id:20,
+              name : "Shibboleth 3",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/shibboleth3.png'); ?>",
+              url: "https://plugins.miniorange.com/"
+          },
+              {
+              id:21,
+              name : "CA Identity",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/ca-identity.png'); ?>",
+              url: "https://plugins.miniorange.com/"
+          },
+              {
+              id:22,
+              name : "Gluu Server",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/gluu-server.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-gluu-server-as-idp"
+          },
+              {
+              id:23,
+              name : "JumpCloud",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/jumpcloud.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-jumpcloud-as-idp"
+          },
+              {
+              id:24,
+              name : "Absorb LMS",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/absorb-lms.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-absorb-lms-as-idp"
+          },
+              {
+              id:25,
+              name : "Degreed",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/degreed.png'); ?>",
+              url: "https://plugins.miniorange.com/"
+          },
+              {
+              id:26,
+              name : "CyberArk",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/cyberark.png'); ?>",
+              url: "https://plugins.miniorange.com/"
+          },
+              {
+              id:27,
+              name : "WSO2",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/wso2.png'); ?>",
+              url: "https://plugins.miniorange.com/saml-single-sign-sso-magento-using-wso2"
+          },
+              {
+              id:28,
+              name : "Drupal",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/drupal.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-single-sign-on-sso-with-drupal"
+          },
+              {
+              id:29,
+              name : "Wordpress",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/wordpress.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-wordpress-as-idp"
+          },
+              {
+              id:30,
+              name : "Joomla",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/joomla.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-joomla-as-idp"
+          },
+          {
+              id:31,
+              name : "Custom Idp",
+              src: "<?php echo $this->getViewFileUrl('MiniOrange_SP::images/custom-idp.png'); ?>",
+              url: "https://plugins.miniorange.com/magento-saml-single-sign-on-sso-using-joomla-as-idp"
+          }
+
+              ];
+
+          showgallery(galleryarray);
+
+          function showgallery(curarra){
+              document.getElementById("scrollable-gallery").innerHTML = "";
+
+              if (curarra.length === 0) {
+                  document.getElementById("para").style.display = 'block';
+                  document.getElementById("para").innerHTML = `
+                  <div class="code">Your IdP is not in the list.Use Custom IDP or use the support section to contact us and we will help you to set up the module with your IDP.</div>
+                  <a class="inside" href="https://plugins.miniorange.com/setup-magento-saml-single-sign-on-sso-extension" target="_blank">
+                      <img src="<?php echo $this->getViewFileUrl('MiniOrange_SP::images/custom-idp.png'); ?>" class="img" alt="Custom IDP">
+                      <h4 class="text">Custom IDP</h4>
+                  </a>
+              `;
+              } else {
+                  document.getElementById("para").style.display = 'none';
+                  for(var i=0; i<curarra.length; i++){
+                      document.getElementById("scrollable-gallery").innerHTML += `
+                          <a class="inside" href="${curarra[i].url}" target="_blank">
+
+                                      <img  style="img" src="${curarra[i].src}" class="img" alt="${curarra[i].name}">
+                                      <h4 class="text">${curarra[i].name}</h4>
+                                  </a>
+
+                      `;
+
+          }
+      }
+  }
+         document.getElementById("myinput").addEventListener("keyup", function(){
+          let searchText = document.getElementById("myinput").value.toLowerCase().replace(/\s+/g, '');
+
+          filterarray = galleryarray.filter(function(item){
+              // Convert item name to lowercase and remove spaces
+              const itemName = item.name.toLowerCase().replace(/\s+/g, '');
+
+              if(itemName.includes(searchText)){
+                  return true;
+              }
+          });
+
+          if(this.value === ""){
+              showgallery(galleryarray);
+          }
+          else{
+              showgallery(filterarray);
+          }
+      });
+</script>
+</body>

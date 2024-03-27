@@ -1,0 +1,178 @@
+<!--
+    This template file is for the SAML Attribute/Role Mapping settings.
+    File acts as a view file for our attribute / role mapping page.
+-->
+
+<?php
+    /**
+     * Attribute mapping
+     * initialize all values required to be shown on the page
+     */
+
+
+
+    $isEnabled = $this->isEnabled();
+    $disabled = !$isEnabled ? "disabled" : "";
+
+    $saml_am_account_matcher = $this->getAccountMatcher();
+
+    $emailSelected = $saml_am_account_matcher == 'email' ? 'selected="selected"' : "";
+    $usernameSelected = $saml_am_account_matcher == 'username' ? 'selected="selected"' : "";
+
+    $saml_am_username = $this->samlUsernameMapping();
+    $saml_am_email = $this->getEmailMapping();
+    $premiumlink = $this->getExtensionPageUrl('upgrade');
+
+   
+
+
+    $default_role = $this->getDefaultRole();
+    $formKey = $this->getBlockHtml('formkey');
+
+echo '
+<div class="row">
+<div class="col-sm-7 page_margin">
+<div class="page" id="attrmapping">
+<div class="mosp_table_layout box">
+   <form name="f" method="post" action="">
+      '.$formKey.'
+      <input type="hidden" name="option" value="saveAttrSettings">
+      <h3><center>Attribute Mapping (Optional)</center></h3>
+      <hr>
+         <table>
+            <tr>
+               <td colspan="2">
+                  <div class="mo_note">
+                     <span class="btn-link" id="attr_mapping" href="">What is Attribute Mapping?</span>
+                     <span style="color:red">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp *</span> <span style="text-transform: capitalize;font-weight:normal;color:black">(Available in the  <a href="'.$premiumlink.'" 
+                     class="premium btn-link">premium</a>  version)</span>
+                     <div style="display:none" class="show_info">
+                        <ol>
+                        <br>
+                           <li>Attributes are user details that are stored in your Identity Provider.</li>
+                           <li>Attribute Mapping helps you to get user attributes from your IdP and map them to
+                              Magento user attributes like firstname, lastname etc.
+                           </li>
+                           <li>While auto registering the users in your Magento site these attributes will automatically
+                              get mapped to your Magento user details.
+                           </li>
+                        </ol>
+                     </div>
+                  </div>
+               </td>
+            </tr>
+            <tr><td colspan="2"><input type="checkbox" id="update_attribute" 
+            name="oauth_am_update_attribue" value="checked"  disabled>
+            &nbsp;&nbsp;Update Attribute. <span style="margin-left:351px;font-style: italic">(Email cannot be update)</span></td></tr>
+            
+      
+            <tr>
+               <td colspan="2"><b>NOTE: </b>Users in Magento will be searched (existing Magento users) or created (new users) based on this
+               attribute. Use Email by default.
+            </tr>
+            <tr>
+               <td style="width:200px;"><strong>Login/Create Magento account by: </strong></td>
+               <td><select name="saml_am_account_matcher" id="saml_am_account_matcher">
+                  <option value="email" '. $emailSelected .'> Email </option>
+                  <option value="username" '.$usernameSelected.' disabled> Username        (*Available in Premium version)</option>
+                  </select>
+               </td>
+            </tr>
+
+            <tr>
+               <td style="width:150px;"><strong>Username <span style="color:red;">*</span>:</strong></td>
+               <td><input type="text" name="saml_am_username" placeholder="Enter attribute name for Username"
+                  value="'.$saml_am_username.'" disabled >
+               </td>
+            </tr>
+            <tr>
+               <td><strong>Email <span style="color:red;">*</span>:</strong></td>
+               <td><input type="text" name="saml_am_email" value="'.$saml_am_email.'" placeholder="Enter attribute name for Email"
+                  disabled >
+               </td>
+            </tr>
+            <tr>
+               <td><strong>First Name:</strong></td>
+               <td><input type="text" name="saml_am_first_name" disabled placeholder="Enter attribute name for First Name"
+                 >
+               </td>
+            </tr>
+            <tr>
+               <td><strong>Last Name:</strong></td>
+               <td><input type="text" name="saml_am_last_name" disabled placeholder="Enter attribute name for Last Name"
+                 >
+               </td>
+            </tr>
+            <tr>
+               <td><strong>Group/Role:</strong></td>
+               <td><input type="text" name="saml_am_group_name" disabled placeholder="Enter attribute name for Group/Role" 
+                  >
+               </td>
+            </tr>
+            <tr>
+               <td><strong>Country Name:</strong></td>
+               <td><input type="text" name="saml_am_country" disabled placeholder="Enter attribute name for Country Name"
+                  >
+               </td>
+            </tr>
+            <tr>
+               <td><strong>City Name:</strong></td>
+               <td><input type="text" name="saml_am_city" disabled placeholder="Enter attribute name for City Name"
+                  >
+               </td>
+            </tr>
+            <tr>
+               <td><strong>Address:</strong></td>
+               <td><input type="text" name="saml_am_address" disabled placeholder="Enter attribute name for Address"
+                  >
+               </td>
+            </tr>
+            <tr>
+               <td><strong>Telephone:</strong></td>
+               <td><input type="text" name="saml_am_phonr" disabled placeholder="Enter attribute name for Phone"
+                 > &nbsp;
+                  <br><br>
+               </td>
+            </tr>
+            <tr>
+                        <td>&nbsp;</td>
+                        <td><br><input type="submit" style="width:100px;" name="submit" value="Save" 
+                            class="btn-round" disabled > &nbsp; 
+                        <br><br>
+                        </td>
+                    </tr>
+         </table>
+   </form>
+   <br>
+   <form name="f" method="post" action="">
+      '.$formKey.'
+      <input type="hidden" name="option" value="saveAttrSettings" >
+      <h3>Custom Attribute Mapping</h3>
+      
+      <fieldset disabled="disabled">
+         
+         <div>
+            <div class="form-group same-row hmargin">
+               <label for="this_attribute"><b>Enter Attribute Name: </b></label>
+            </div>
+            <div class="form-group same-row hmargin">
+               <input class="form-control" disabled {log} id="this_attribute" name="this_attribute" type="text" value = "" 
+               placeholder="Enter the custom attribute name
+
+               ">
+               <button class="btn btn-primary btn-round" type="button" disabled  onClick="addCustomAttribute()">Add (+)</button>
+               <button class="btn btn-primary btn-round" type="button" disabled  onClick="deleteCustomAttribute()">Delete (-)</button>
+            </div>
+            <div class="new-row vmargin">
+               <div id="submit_custom_attr" class="form-group">
+                  <br><input type="submit" class="btn-round" disabled style="width:100px;" name="submit" value="Save"
+                  > &nbsp;
+                  <br><br>
+               </div>
+            </div>
+      </fieldset>
+   </form>
+   </div>
+</div>
+';
+

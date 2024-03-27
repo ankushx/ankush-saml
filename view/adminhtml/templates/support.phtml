@@ -1,0 +1,149 @@
+<body>
+<?php
+
+$formKey = $this->getBlockHtml('formkey');
+$supportUrl=$this->getUrl('mospsaml/support/index');
+$isEnabled = $this->isEnabled();
+$disabled = !$isEnabled ? "disabled" : "";
+
+echo '
+
+<div class="panel-heading">
+	<div class="pull-right">			
+		<div class="page" id="minisupport" style="margin-top:11px;">
+            <div class="mosp_table_layout">
+            <div style=" ">
+            <form style="background-color: #f4f4f4; border-radius: 10px; padding: 20px; text-align: center; max-width: 100%; width: 100%;">
+            <div style="font-size: 15px; margin-bottom: 5%;">Start your 7-day <strong style="color: #ff8500;">Premium</strong> trial now!</div>
+           
+            <div class="mo_note_guide">
+                     <span class="btn-link-guide" id="guide_setup" href=""><b>Click Here</b></span>
+                     <div style="display:none" class="show_info_guide">
+                       
+                     <br>
+                            <center><b>Trial Version Installation Steps</b></center><br>
+                            <ul style="text-align:left; ">
+                            <li class="guide-item"><a href="https://plugins.miniorange.com/setup-magento-saml-single-sign-on-sso-trial-extension" target="_blank" style="color:orange;"><b>Click here</b></a> to setup 7-days SAML Premium trial Plugin</li>
+                                    <li class="guide-item">Remove the free version of the plugin by running the below command in your Magento root directory..<br>
+
+
+                                    <div class="copy-link" 
+                                    style="margin-top: 5px;
+                                    margin-bottom: 5px;
+                                    border-radius:4px;
+                                    ">
+                                    <input type="text" class="copy-link-input"
+                                    style="font-weight: bold;
+                                            font-style: italic;"
+                                    value="composer remove miniorange_inc/saml-sp-single-sign-on" readonly>
+                                    <button type="button" class="copy-link-button">
+                                        <span class="material-icons">
+                                        <img  src="'.$this->getViewFileUrl('MiniOrange_SP::images/copy.png').'" alt="copy"
+                                        style="height: 25px;padding-top:4px"
+                                        >
+                                        </span>
+                                        <span class="copy-text">copied</span>
+                                </button>
+                                    </div>
+                                    
+                                           
+                                    </li>
+                                    <li class="guide-item">Create a new folder inside {Root Directory of magento}/app/code having the name "MiniOrange"</li>
+                                
+                                    <li class="guide-item">Unzip all contents of the zip inside the MiniOrange/SP directory.{Root Directory of Magento}/app/code/MiniOrange/SP</li>
+                                    <li class="guide-item">Run the following commands on the command prompt to enable the extension.<br>
+
+                                            
+
+                                            <div class="copy-link" 
+                                            style="margin-top: 5px;
+                                            margin-bottom: 5px;">
+                                            <input type="text" class="copy-link-input"
+                                            style="font-weight: bold;
+                                            font-style: italic;"
+                                            value="php bin/magento setup:di:compile" readonly>
+                                            <button type="button" class="copy-link-button">
+                                                <span class="material-icons">
+                                                <img  src="'.$this->getViewFileUrl('MiniOrange_SP::images/copy.png').'" alt="copy"
+                                                style="height: 25px;padding-top:4px"
+                                                >
+                                                </span>
+                                                <span class="copy-text">copied</span>
+                                        </button>
+                                            </div>
+                                            <div class="copy-link" 
+                                            style="margin-top: 5px;
+                                            margin-bottom: 5px;">
+                                            <input type="text" class="copy-link-input"
+                                             style="font-weight: bold;
+                                            font-style: italic;" value="php bin/magento setup:upgrade" readonly>
+                                            <button type="button" class="copy-link-button">
+                                                <span class="material-icons">
+                                                <img  src="'.$this->getViewFileUrl('MiniOrange_SP::images/copy.png').'" alt="copy"
+                                                style="height: 25px;padding-top:4px"
+                                                >
+                                                </span>
+                                                <span class="copy-text">copied</span>
+                                        </button>
+                                            </div>
+                                            
+
+                                           
+                                    </li>
+                                    
+                            
+                            </ul>
+                           
+                        
+                     </div>
+                  </div>
+        </div>
+        </form>
+        
+            </div>
+            <br>
+           
+            <div style="background-color: #f4f4f4; border-radius: 10px; padding: 20px; text-align: center; max-width: 100%; width: 100%;">
+                <h3>Request a FREE Trial / Contact Us</h3>
+                <hr>
+                <form name="f" id="support" method="post" action= "'.$supportUrl.'">
+                    '.$formKey.'
+                    <div><b>Need any help? Just send us a query so we can help you.</b><br><br></div>
+                    <input type="hidden" name="option" value="supportQuery" >
+                    <div>
+                        <table>
+                            <tr><td>
+                                <input type="email"  class="mosp_table_textbox" id="query_email" name="email" value="" placeholder="Enter your email" required="true" >
+                                </td>
+                            </tr>
+                            <tr><td>
+                                <input type="text"  class="mosp_table_textbox" name="phone" id="query_phone" title="Phone with country code eg. +1xxxxxxxxxx" placeholder="Phone with country code eg. +1xxxxxxxxxx" value="" pattern="[\+]?[0-9]{1,4}\s?[0-9]{10}">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <textarea id="query" class="mosp_table_textbox" name="query" style="resize:vertical;height:120px;" onkeyup="mosp_valid(this)" onblur="mosp_valid(this)" onkeypress="mosp_valid(this)" placeholder="Write your query here"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="text-align:center">
+                    <input type="submit" class="btn-round" name="send_query"  id="send_query" value="Submit Query" style="text-align:center" >
+                    </div>
+                </form>
+                <br>
+            </div>
+            <br>
+        </div>
+
+    </div>
+    </div>
+    </div>';
+    ?>
+    <script>
+
+</script>
+
+    </body>
+
