@@ -1,0 +1,58 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+   <table name="miniorange_saml_idps" resource="default" engine="innodb" comment="Miniorange SAML IDPs">
+      <column xsi:type="smallint" name="id" padding="7" unsigned="true" nullable="false" identity="true" comment="ID" />
+      <column xsi:type="varchar" name="idp_name" nullable="false" length="255" comment="Identity Provider Name" />
+      <column xsi:type="varchar" name="idp_entity_id" nullable="false" length="255" comment="IDP Entity ID" />
+      <column xsi:type="varchar" name="saml_login_url" nullable="false" length="255" comment="SAML Login URL" />
+      <column xsi:type="varchar" name="saml_login_binding" nullable="false" length="255" comment="SAML Login Binding" />
+      <column xsi:type="varchar" name="saml_logout_url" nullable="false" length="255" comment="SAML logout URL" />
+      <column xsi:type="varchar" name="saml_logout_binding" nullable="false" length="255" comment="SAML logout binding" />
+      <column xsi:type="text"    name="x509_certificate" nullable="false"  comment="X509 certificate" />
+      <column xsi:type="varchar" name="response_signed" nullable="false" length="255" comment="Is response signed?" />
+      <column xsi:type="varchar" name="assertion_signed" nullable="false" length="255" comment="Is Assertion signed?" />
+      <column xsi:type="varchar" name="show_admin_link" nullable="false" length="255" comment="Show admin link on default admin login page" />
+      <column xsi:type="varchar" name="show_customer_link" nullable="false" length="255" comment="Show customer link on default customer login page" />
+      <column xsi:type="varchar" name="auto_create_admin_users" nullable="false" length="255" comment="Auto create admins while SSO" />
+      <column xsi:type="varchar" name="auto_create_customers" nullable="false" length="255" comment="Auto create customers while SSO" />
+      <column xsi:type="varchar" name="disable_b2c" nullable="false" length="255" comment="Disable B2C flow" />
+      <column xsi:type="varchar" name="force_authentication_with_idp" nullable="false" length="255" comment="Force authentication with IDP on each login attempt" />
+      <column xsi:type="varchar" name="auto_redirect_to_idp" nullable="false" length="255" comment="Auto redirect users to IDP from login page" />
+      <column xsi:type="varchar" name="link_to_initiate_sso" nullable="false" length="255" comment="Link to initiate SSO" />
+      <column xsi:type="varchar" name="update_attributes_on_login" nullable="false" length="255" comment="Update attributes on every sso" />
+      <column xsi:type="varchar" name="create_magento_account_by" nullable="false" length="255" comment="Create magento account while SSO by (email/username)" />
+      <column xsi:type="varchar" name="email_attribute" nullable="false" length="255" comment="The email attribute" />
+      <column xsi:type="varchar" name="username_attribute" nullable="false" length="255" comment="The username attribute" />
+      <column xsi:type="varchar" name="firstname_attribute" nullable="false" length="255" comment="The firstname attribute" />
+      <column xsi:type="varchar" name="lastname_attribute" nullable="false" length="255" comment="The lastname attribute" />
+      <column xsi:type="varchar" name="group_attribute" nullable="false" length="255" comment="The group attribute" />
+      <column xsi:type="varchar" name="billing_city_attribute" nullable="false" length="255" comment="The billing_city attribute" />
+      <column xsi:type="varchar" name="billing_state_attribute" nullable="false" length="255" comment="The billing_state attribute" />
+      <column xsi:type="varchar" name="billing_country_attribute" nullable="false" length="255" comment="The billing_country attribute" />
+      <column xsi:type="varchar" name="billing_address_attribute" nullable="false" length="255" comment="The billing_address attribute" />
+      <column xsi:type="varchar" name="billing_phone_attribute" nullable="false" length="255" comment="The billing_Telephone attribute" />
+      <column xsi:type="varchar" name="billing_zip_attribute" nullable="false" length="255" comment="The billing_zip code attribute" />
+      <column xsi:type="varchar" name="shipping_city_attribute" nullable="false" length="255" comment="The shipping_city attribute" />
+      <column xsi:type="varchar" name="shipping_state_attribute" nullable="false" length="255" comment="The shipping_state attribute" />
+      <column xsi:type="varchar" name="shipping_country_attribute" nullable="false" length="255" comment="The shipping_country attribute" />
+      <column xsi:type="varchar" name="shipping_address_attribute" nullable="false" length="255" comment="The shipping_address attribute" />
+      <column xsi:type="varchar" name="shipping_phone_attribute" nullable="false" length="255" comment="The shipping_Telephone attribute" />
+      <column xsi:type="varchar" name="shipping_zip_attribute" nullable="false" length="255" comment="The shipping_zip code attribute" />
+      <column xsi:type="varchar" name="b2b_attribute" nullable="false" length="255" comment="The B2B attribute" />
+      <column xsi:type="varchar" name="custom_tablename" nullable="false" length="255" comment="Custom table name" />
+      <column xsi:type="varchar" name="custom_attributes" nullable="false" length="255" comment="Custom attributes" />
+      <column xsi:type="varchar" name="do_not_autocreate_if_roles_not_mapped" nullable="false" length="255" comment="Do not autocreate users if roles/Groups are not Mapped" />
+      <column xsi:type="varchar" name="update_backend_roles_on_sso" nullable="false" length="255" comment="Update backend user roles after each Admin SSO" />
+      <column xsi:type="varchar" name="update_frontend_groups_on_sso" nullable="false" length="255" comment="Update frontend user groups after each Customer SSO" />
+      <column xsi:type="varchar" name="default_group" nullable="false" length="255" comment="The default customer group" />
+      <column xsi:type="varchar" name="groups_mapped" nullable="false" length="255" comment="The customer Group Mapping" />
+      <column xsi:type="varchar" name="default_role" nullable="false" length="255" comment="The default admin role" />
+      <column xsi:type="varchar" name="roles_mapped" nullable="false" length="255" comment="The Admin Role Mapping" />
+      <column xsi:type="varchar" name="saml_logout_redirect_url" nullable="false" length="255" comment="The Post Logout URL" />
+      <column xsi:type="varchar" name="saml_enable_billingandshipping" nullable="false" length="255" comment="saml_enable_billingandshipping" />
+      <column xsi:type="varchar" name="saml_sameasbilling" nullable="false" length="255" comment="Same as billing address" />
+
+      <constraint xsi:type="primary" referenceId="PRIMARY">
+         <column name="id" />
+      </constraint>
+   </table>
+</schema>

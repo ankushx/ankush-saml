@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <!-- Defines the Access Control for the Settings and Modules -->
+    <acl>
+        <resources>
+            <!-- Magento Admin ACL -->
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::content">
+                    <!-- SAML 2.0 SP ACL Settings Definition -->
+                    <resource id="MiniOrange_SP::SP" title="SAML 2.0 SP" sortOrder="10" >
+                        <!-- Service Provider Settings ACL definition -->
+                        <resource id="MiniOrange_SP::sp_settings" title="SP Settings" sortOrder="1"/>
+                        <!-- Identity Provider Settings ACL definition -->
+                        <resource id="MiniOrange_SP::idp_settings" title="IDP Settings" sortOrder="2"/>
+                        <!-- Sign In Settings ACL definition -->
+                        <resource id="MiniOrange_SP::signin_settings" title="Sign In Settings" sortOrder="3"/>
+                        <!-- Attribute Settings ACL definition -->
+                        <resource id="MiniOrange_SP::attr_settings" title="Attibute Mapping Settings" sortOrder="4"/>
+                        <!-- Faq Settings ACL definition -->
+                        <resource id="MiniOrange_SP::faq_settings" title="FAQ Settings" sortOrder="5"/>
+                        <!-- Metadata XML download ACL definition -->
+                        <resource id="MiniOrange_SP::metadata" title="Metadata Download" sortOrder="6"/>
+                        <!-- Account Settings -->
+                        <resource id="MiniOrange_SP::account_settings" title="Account Settings" sortOrder="1"/>
+                        <!-- Support Settings -->
+                        <resource id="MiniOrange_SP::support" title="Support Section" sortOrder="1"/>
+                        <!-- Support Settings -->
+                        <resource id="MiniOrange_SP::upgrade" title="Upgrade Section" sortOrder="1"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

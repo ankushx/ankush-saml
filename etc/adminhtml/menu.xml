@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<!-- This XML is used to add a menu item to our Magento Admin Backend Settings Page -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<!-- Adding a SAML 2.0 SP menu item in admin backend for access to other sub settings -->
+        <add id="MiniOrange_SP::SP" 
+        	 title="SAML 2.0 SP" 
+        	 module="MiniOrange_SP" 
+        	 sortOrder="52" 
+        	 resource="MiniOrange_SP::SP" />
+
+
+			
+
+		<!--
+        	Adding a Identity Provider sub menu item to show settings that IDP needs 
+        	Parent Menu Item is the miniOrange SP menu item mentioned above.
+        	Action is the controllerAction to be called when menu item is clicked.
+    		-->
+		<add id="MiniOrange_SP::idp_settings" 
+        	 title="Service Provider Metadata"
+        	 module="MiniOrange_SP" 
+        	 sortOrder="0"
+        	 parent="MiniOrange_SP::SP" 
+        	 action="mospsaml/idpsettings"
+        	 resource="MiniOrange_SP::idp_settings"/>
+        <!--
+        	Adding a Service Providers sub menu item to handle SP related settings
+        	Parent Menu Item is the miniOrange SP menu item mentioned above.
+        	Action is the controllerAction to be called when menu item is clicked.
+    		-->
+        <add id="MiniOrange_SP::sp_settings"
+        	 title="Service Provider Setup"
+        	 module="MiniOrange_SP"
+        	 sortOrder="1"
+        	 parent="MiniOrange_SP::SP"
+        	 action="mospsaml/spsettings"
+        	 resource="MiniOrange_SP::sp_settings"/>
+		<!--
+        	Adding a Sign In Settings sub menu item to show Sign In Settings Tab 
+        	Parent Menu Item is the miniOrange SP menu item mentioned above.
+        	Action is the controllerAction to be called when menu item is clicked.
+    		-->
+		<add id="MiniOrange_SP::signin_settings" 
+        	 title="Sign In Settings" 
+        	 module="MiniOrange_SP" 
+        	 sortOrder="2"
+        	 parent="MiniOrange_SP::SP" 
+        	 action="mospsaml/signinsettings"
+        	 resource="MiniOrange_SP::signin_settings"/>
+
+           <add id="MiniOrange_SP::attr_settings" 
+           title="Attribute Mapping" 
+           module="MiniOrange_SP" 
+           sortOrder="3"
+           parent="MiniOrange_SP::SP" 
+           action="mospsaml/attrsettings"
+           resource="MiniOrange_SP::attr_settings"/>
+
+           <add id="MiniOrange_SP::role_settings" 
+           title="Role Mapping" 
+           module="MiniOrange_SP" 
+           sortOrder="4"
+           parent="MiniOrange_SP::SP" 
+           action="mospsaml/rolesettings"
+           resource="MiniOrange_SP::role_settings"/>
+
+	<!--
+        	Adding a Account sub menu item to handle miniorange account related settings 
+        	Parent Menu Item is the miniOrange SP menu item mentioned above.
+        	Action is the controllerAction to be called when menu item is clicked.
+    		-->
+        <add id="MiniOrange_SP::account_settings" 
+        	 title="Account" 
+        	 module="MiniOrange_SP" 
+        	 sortOrder="5" 
+        	 parent="MiniOrange_SP::SP" 
+        	 action="mospsaml/account"
+        	 resource="MiniOrange_SP::account_settings"/>
+
+	<!--
+        	Adding a Upgrade sub menu item 
+    		-->
+
+        <add id="MiniOrange_SP::upgrade" 
+             title="Upgrade" 
+             module="MiniOrange_SP" 
+             sortOrder="6"
+             parent="MiniOrange_SP::SP" 
+             action="mospsaml/upgrade"
+             resource="MiniOrange_SP::upgrade"/>
+
+			
+		
+    </menu>
+</config>
